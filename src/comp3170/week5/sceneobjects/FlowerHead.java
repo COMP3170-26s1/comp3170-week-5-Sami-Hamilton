@@ -32,6 +32,9 @@ public class FlowerHead extends SceneObject {
 	
 	private int[] indices;
 	private int indexBuffer;
+	
+	private Matrix4f modelMatrix = new Matrix4f();
+	private final float ROTATION_SPEED = TAU/4;
 
 	public FlowerHead(int nPetals, Vector3f colour) {
 		shader = ShaderLibrary.instance.compileShader(VERTEX_SHADER, FRAGMENT_SHADER);		
@@ -79,11 +82,12 @@ public class FlowerHead extends SceneObject {
 
 	public void update(float dt) {
 		// TODO: Make the flower head rotate. (TASK 5)
+		modelMatrix = getMatrix();
+		
+		modelMatrix.rotateZ(ROTATION_SPEED * dt);
 	}
 
 	public void drawSelf(Matrix4f mvpMatrix) {
-		// TODO: Add any appropriate draw code. (TASK 1)
-		
 		shader.enable();
 		shader.setUniform("u_mvpMatrix", mvpMatrix);
 	    shader.setAttribute("a_position", vertexBuffer);
